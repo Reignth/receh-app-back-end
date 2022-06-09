@@ -11,7 +11,7 @@ const addTransaksi = (request, h) => {
   const idTransaksi = nanoid(16);
   const date = new Date();
   const tanggal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-  const waktu = `${date.getHours() + 7}:${date.getMinutes()}:${date.getSeconds()}`;
+  const waktu = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
   if (!idUser && !jumlah && !pihak && !jenis) {
     return h.response({
