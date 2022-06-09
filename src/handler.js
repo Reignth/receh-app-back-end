@@ -9,7 +9,9 @@ const addTransaksiTerima = (request, h) => {
   } = request.payload;
   const id = nanoid(16);
   const jenis = 'Terima';
-  const tanggal = new Date().toISOString();
+  const date = new Date();
+  const tanggal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  const waktu = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
   if (!jumlah && !idPengirim) {
     return h.response({
@@ -25,6 +27,7 @@ const addTransaksiTerima = (request, h) => {
     jenis,
     idPengirim,
     tanggal,
+    waktu,
   };
   transaksi.push(newTransaksi);
 
@@ -55,7 +58,9 @@ const addTransaksiKirim = (request, h) => {
   } = request.payload;
   const id = nanoid(16);
   const jenis = 'Kirim';
-  const tanggal = new Date().toISOString();
+  const date = new Date();
+  const tanggal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  const waktu = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
   if (!jumlah && !idPenerima) {
     return h.response({
@@ -72,6 +77,7 @@ const addTransaksiKirim = (request, h) => {
     jenis,
     idPenerima,
     tanggal,
+    waktu,
   };
   transaksi.push(newTransaksi);
 
