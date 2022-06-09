@@ -1,8 +1,7 @@
 const {
-  addTransaksiKirim,
-  addTransaksiTerima,
+  addTransaksi,
   getAllTransaksi,
-  getTransaksiById,
+  getTransaksiByIdUser,
   deleteTransaksi,
 } = require('./handler');
 
@@ -10,12 +9,7 @@ const routes = [
   {
     method: 'POST',
     path: '/transaksi/kirim',
-    handler: addTransaksiKirim,
-  },
-  {
-    method: 'POST',
-    path: '/transaksi/terima',
-    handler: addTransaksiTerima,
+    handler: addTransaksi,
   },
   {
     method: 'GET',
@@ -25,7 +19,7 @@ const routes = [
   {
     method: 'GET',
     path: '/transaksi/{idUser}',
-    handler: getTransaksiById,
+    handler: getTransaksiByIdUser,
   },
   {
     method: 'DELETE',

@@ -1,85 +1,31 @@
 const { nanoid } = require('nanoid');
 const transaksi = require('./transaksi');
 
-const addTransaksiTerima = (request, h) => {
+const addTransaksi = (request, h) => {
   const {
     idUser,
     jumlah,
-    idPengirim,
-    namaPengirim,
+    pihak,
+    jenis,
   } = request.payload;
   const idTransaksi = nanoid(16);
-  const jenis = 'Terima';
   const date = new Date();
   const tanggal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-  const waktu = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  const waktu = `${date.getHours() + 7}:${date.getMinutes()}:${date.getSeconds()}`;
 
-  if (!jumlah && !idPengirim && !namaPengirim) {
+  if (!idUser && !jumlah && !pihak && !jenis) {
     return h.response({
       statusCode: 400,
       error: 'Bad Request',
-      message: 'Jumlah harus diisi',
+      message: 'Invalid Input',
     }).code(400);
   }
   const newTransaksi = {
     idTransaksi,
     idUser,
-    namaPengirim,
+    pihak,
     jumlah,
     jenis,
-    idPengirim,
-    tanggal,
-    waktu,
-  };
-  transaksi.push(newTransaksi);
-
-  const isSuccess = transaksi.filter((transaction) => transaction.idTransaksi === idTransaksi).length > 0;
-  if (isSuccess) {
-    const response = h.response({
-      status: 'success',
-      message: 'Transaksi berhasil ditambahkan',
-      data: {
-        TransaksiId: idTransaksi,
-      },
-    }).code(201);
-    return response;
-  }
-
-  const response = h.response({
-    status: 'error',
-    message: 'Transaksi gagal ditambahkan',
-  }).code(500);
-  return response;
-};
-
-const addTransaksiKirim = (request, h) => {
-  const {
-    idUser,
-    jumlah,
-    idPenerima,
-    namaPenerima,
-  } = request.payload;
-  const idTransaksi = nanoid(16);
-  const jenis = 'Kirim';
-  const date = new Date();
-  const tanggal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-  const waktu = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-
-  if (!jumlah && !idPenerima && !namaPenerima) {
-    return h.response({
-      statusCode: 400,
-      error: 'Bad Request',
-      message: 'Jumlah harus diisi',
-    }).code(400);
-  }
-
-  const newTransaksi = {
-    idTransaksi,
-    idUser,
-    namaPenerima,
-    jumlah,
-    jenis,
-    idPenerima,
     tanggal,
     waktu,
   };
@@ -112,7 +58,7 @@ const getAllTransaksi = (request, h) => {
   return response;
 };
 
-const getTransaksiById = (request, h) => {
+const getTransaksiByIdUser = (request, h) => {
   const { idUser } = request.params;
   const hist = transaksi.filter((transaction) => transaction.idUser === idUser);
   if (hist) {
@@ -148,9 +94,8 @@ const deleteTransaksi = (request, h) => {
 };
 
 module.exports = {
-  addTransaksiTerima,
-  addTransaksiKirim,
+  addTransaksi,
   getAllTransaksi,
-  getTransaksiById,
+  getTransaksiByIdUser,
   deleteTransaksi,
 };
