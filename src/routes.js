@@ -8,7 +8,7 @@ const {
 const routes = [
   {
     method: 'POST',
-    path: '/transaksi/kirim',
+    path: '/transaksi',
     handler: addTransaksi,
   },
   {
