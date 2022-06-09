@@ -13,7 +13,7 @@ const addTransaksiTerima = (request, h) => {
   const tanggal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   const waktu = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
-  if (!jumlah && !idPengirim) {
+  if (!jumlah && !idPengirim && !namaPengirim) {
     return h.response({
       statusCode: 400,
       error: 'Bad Request',
@@ -62,7 +62,7 @@ const addTransaksiKirim = (request, h) => {
   const tanggal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   const waktu = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
-  if (!jumlah && !idPenerima) {
+  if (!jumlah && !idPenerima && !namaPenerima) {
     return h.response({
       statusCode: 400,
       error: 'Bad Request',
