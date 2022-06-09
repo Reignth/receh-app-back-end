@@ -3,11 +3,12 @@ const transaksi = require('./transaksi');
 
 const addTransaksiTerima = (request, h) => {
   const {
+    idUser,
     jumlah,
     idPengirim,
     namaPengirim,
   } = request.payload;
-  const id = nanoid(16);
+  const idTransaksi = nanoid(16);
   const jenis = 'Terima';
   const date = new Date();
   const tanggal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
@@ -21,7 +22,8 @@ const addTransaksiTerima = (request, h) => {
     }).code(400);
   }
   const newTransaksi = {
-    id,
+    idTransaksi,
+    idUser,
     namaPengirim,
     jumlah,
     jenis,
@@ -31,13 +33,13 @@ const addTransaksiTerima = (request, h) => {
   };
   transaksi.push(newTransaksi);
 
-  const isSuccess = transaksi.filter((transaction) => transaction.id === id).length > 0;
+  const isSuccess = transaksi.filter((transaction) => transaction.idTransaksi === idTransaksi).length > 0;
   if (isSuccess) {
     const response = h.response({
       status: 'success',
       message: 'Transaksi berhasil ditambahkan',
       data: {
-        TransaksiId: id,
+        TransaksiId: idTransaksi,
       },
     }).code(201);
     return response;
@@ -52,11 +54,12 @@ const addTransaksiTerima = (request, h) => {
 
 const addTransaksiKirim = (request, h) => {
   const {
+    idUser,
     jumlah,
     idPenerima,
     namaPenerima,
   } = request.payload;
-  const id = nanoid(16);
+  const idTransaksi = nanoid(16);
   const jenis = 'Kirim';
   const date = new Date();
   const tanggal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
@@ -71,7 +74,8 @@ const addTransaksiKirim = (request, h) => {
   }
 
   const newTransaksi = {
-    id,
+    idTransaksi,
+    idUser,
     namaPenerima,
     jumlah,
     jenis,
@@ -81,13 +85,13 @@ const addTransaksiKirim = (request, h) => {
   };
   transaksi.push(newTransaksi);
 
-  const isSuccess = transaksi.filter((transaction) => transaction.id === id).length > 0;
+  const isSuccess = transaksi.filter((transaction) => transaction.idTransaksi === idTransaksi).length > 0;
   if (isSuccess) {
     const response = h.response({
       status: 'success',
       message: 'Transaksi berhasil ditambahkan',
       data: {
-        TransaksiId: id,
+        TransaksiId: idTransaksi,
       },
     }).code(201);
     return response;
@@ -109,8 +113,8 @@ const getAllTransaksi = (request, h) => {
 };
 
 const getTransaksiById = (request, h) => {
-  const { id } = request.params;
-  const hist = transaksi.filter((transaction) => transaction.id === id)[0];
+  const { idUser } = request.params;
+  const hist = transaksi.filter((transaction) => transaction.idUser === idUser);
   if (hist) {
     const response = h.response({
       status: 'success',
@@ -126,8 +130,8 @@ const getTransaksiById = (request, h) => {
 };
 
 const deleteTransaksi = (request, h) => {
-  const { id } = request.params;
-  const index = transaksi.findIndex((transaction) => transaction.id === id);
+  const { idTransaksi } = request.params;
+  const index = transaksi.findIndex((transaction) => transaction.idTransaksi === idTransaksi);
   if (index > -1) {
     transaksi.splice(index, 1);
     const response = h.response({

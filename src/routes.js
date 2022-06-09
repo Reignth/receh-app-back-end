@@ -24,12 +24,12 @@ const routes = [
   },
   {
     method: 'GET',
-    path: '/transaksi/{id}',
+    path: '/transaksi/{idUser}',
     handler: getTransaksiById,
   },
   {
     method: 'DELETE',
-    path: '/transaksi/{id}',
+    path: '/transaksi/{idTransaksi}',
     handler: deleteTransaksi,
   },
 
