@@ -99,9 +99,10 @@ const deleteTransaksi = (request, h) => {
 const addMitraSeller = (request, h) => {
   const {
     nama,
-    jarak,
+    lat,
+    lon,
   } = request.payload;
-  if (!nama && !jarak) {
+  if (!nama && !lat && !lon) {
     return h.response({
       statusCode: 400,
       error: 'Bad Request',
@@ -110,7 +111,8 @@ const addMitraSeller = (request, h) => {
   }
   const newMitraSeller = {
     nama,
-    jarak,
+    lat,
+    lon,
   };
   mitraseller.push(newMitraSeller);
   const isSuccess = mitraseller.filter((mitra) => mitra.nama === nama).length > 0;
