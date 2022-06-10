@@ -3,6 +3,8 @@ const {
   getAllTransaksi,
   getTransaksiByIdUser,
   deleteTransaksi,
+  addMitraSeller,
+  getAllMitraSeller,
 } = require('./handler');
 
 const routes = [
@@ -25,6 +27,16 @@ const routes = [
     method: 'DELETE',
     path: '/transaksi/{idTransaksi}',
     handler: deleteTransaksi,
+  },
+  {
+    method: 'POST',
+    path: '/mitra-seller',
+    handler: addMitraSeller,
+  },
+  {
+    method: 'GET',
+    path: '/mitra-seller',
+    handler: getAllMitraSeller,
   },
 
 ];

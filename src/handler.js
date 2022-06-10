@@ -1,5 +1,6 @@
 const { nanoid } = require('nanoid');
 const transaksi = require('./transaksi');
+const mitraseller = require('./mitra-seller');
 
 const addTransaksi = (request, h) => {
   const {
@@ -12,6 +13,7 @@ const addTransaksi = (request, h) => {
   const date = new Date();
   const tanggal = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   const waktu = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  const status = 'success';
 
   if (!idUser && !jumlah && !pihak && !jenis) {
     return h.response({
@@ -28,6 +30,7 @@ const addTransaksi = (request, h) => {
     jenis,
     tanggal,
     waktu,
+    status,
   };
   transaksi.push(newTransaksi);
 
@@ -93,9 +96,54 @@ const deleteTransaksi = (request, h) => {
   return response;
 };
 
+const addMitraSeller = (request, h) => {
+  const {
+    nama,
+    jarak,
+  } = request.payload;
+  if (!nama && !jarak) {
+    return h.response({
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'Invalid Input',
+    }).code(400);
+  }
+  const newMitraSeller = {
+    nama,
+    jarak,
+  };
+  mitraseller.push(newMitraSeller);
+  const isSuccess = mitraseller.filter((mitra) => mitra.nama === nama).length > 0;
+  if (isSuccess) {
+    const response = h.response({
+      status: 'success',
+      message: 'Mitra Seller berhasil ditambahkan',
+      data: {
+        MitraSellerId: nama,
+      },
+    }).code(201);
+    return response;
+  }
+  const response = h.response({
+    status: 'error',
+    message: 'Mitra Seller gagal ditambahkan',
+  }).code(500);
+  return response;
+};
+
+const getAllMitraSeller = (request, h) => {
+  const response = h.response({
+    status: 'success',
+    data: mitraseller,
+  }).code(200);
+  return response;
+};
+
 module.exports = {
   addTransaksi,
   getAllTransaksi,
   getTransaksiByIdUser,
+  addMitraSeller,
+  getAllMitraSeller,
   deleteTransaksi,
 };
