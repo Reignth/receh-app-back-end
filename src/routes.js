@@ -3,8 +3,10 @@ const {
   getAllTransaksi,
   getTransaksiByIdUser,
   deleteTransaksi,
-  addMitraSeller,
-  getAllMitraSeller,
+  addMitra,
+  getAllMitra,
+  addSeller,
+  getAllSeller,
 } = require('./handler');
 
 const routes = [
@@ -30,15 +32,24 @@ const routes = [
   },
   {
     method: 'POST',
-    path: '/mitra-seller',
-    handler: addMitraSeller,
+    path: '/mitra',
+    handler: addMitra,
   },
   {
     method: 'GET',
-    path: '/mitra-seller',
-    handler: getAllMitraSeller,
+    path: '/mitra',
+    handler: getAllMitra,
   },
-
+  {
+    method: 'POST',
+    path: '/seller',
+    handler: addSeller,
+  },
+  {
+    method: 'GET',
+    path: '/seller',
+    handler: getAllSeller,
+  },
 ];
 
 module.exports = routes;

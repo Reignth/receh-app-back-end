@@ -96,12 +96,13 @@ const deleteTransaksi = (request, h) => {
   return response;
 };
 
-const addMitraSeller = (request, h) => {
+const addMitra = (request, h) => {
   const {
     nama,
     lat,
     lon,
   } = request.payload;
+  const jenis = 'mitra';
   if (!nama && !lat && !lon) {
     return h.response({
       statusCode: 400,
@@ -110,6 +111,7 @@ const addMitraSeller = (request, h) => {
     }).code(400);
   }
   const newMitraSeller = {
+    jenis,
     nama,
     lat,
     lon,
@@ -119,7 +121,7 @@ const addMitraSeller = (request, h) => {
   if (isSuccess) {
     const response = h.response({
       status: 'success',
-      message: 'Mitra Seller berhasil ditambahkan',
+      message: 'Mitra berhasil ditambahkan',
       data: {
         MitraSellerId: nama,
       },
@@ -128,15 +130,64 @@ const addMitraSeller = (request, h) => {
   }
   const response = h.response({
     status: 'error',
-    message: 'Mitra Seller gagal ditambahkan',
+    message: 'Mitra gagal ditambahkan',
   }).code(500);
   return response;
 };
 
-const getAllMitraSeller = (request, h) => {
+const getAllMitra = (request, h) => {
+  const tempMitra = mitraseller.filter((mitra) => mitra.jenis === 'mitra');
   const response = h.response({
     status: 'success',
-    data: mitraseller,
+    data: tempMitra,
+  }).code(200);
+  return response;
+};
+
+const addSeller = (request, h) => {
+  const {
+    nama,
+    lat,
+    lon,
+  } = request.payload;
+  const jenis = 'seller';
+  if (!nama && !lat && !lon) {
+    return h.response({
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'Invalid Input',
+    }).code(400);
+  }
+  const newMitraSeller = {
+    jenis,
+    nama,
+    lat,
+    lon,
+  };
+  mitraseller.push(newMitraSeller);
+  const isSuccess = mitraseller.filter((mitra) => mitra.nama === nama).length > 0;
+  if (isSuccess) {
+    const response = h.response({
+      status: 'success',
+      message: 'Seller berhasil ditambahkan',
+      data: {
+        MitraSellerId: nama,
+      },
+    }).code(201);
+    return response;
+  }
+  const response = h.response({
+    status: 'error',
+    message: 'Seller gagal ditambahkan',
+  }).code(500);
+  return response;
+};
+
+const getAllSeller = (request, h) => {
+  const tempSeller = mitraseller.filter((seller) => seller.jenis === 'seller');
+  const response = h.response({
+    status: 'success',
+    data: tempSeller,
   }).code(200);
   return response;
 };
@@ -145,7 +196,9 @@ module.exports = {
   addTransaksi,
   getAllTransaksi,
   getTransaksiByIdUser,
-  addMitraSeller,
-  getAllMitraSeller,
+  addMitra,
+  getAllMitra,
+  addSeller,
+  getAllSeller,
   deleteTransaksi,
 };
