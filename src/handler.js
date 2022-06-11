@@ -32,7 +32,7 @@ const addTransaksi = (request, h) => {
     waktu,
     status,
   };
-  transaksi.push(newTransaksi);
+  transaksi.unshift(newTransaksi);
 
   const isSuccess = transaksi.filter((transaction) => transaction.idTransaksi === idTransaksi).length > 0;
   if (isSuccess) {
