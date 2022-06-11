@@ -192,10 +192,28 @@ const getAllSeller = (request, h) => {
   return response;
 };
 
+const getIdTransaksi = (request, h) => {
+  const { idUser, idTransaksi } = request.params;
+  const index = transaksi.findIndex((transaction) => transaction.idTransaksi === idTransaksi && transaction.idUser === idUser);
+  if (index > -1) {
+    const response = h.response({
+      status: 'success',
+      data: transaksi[index],
+    }).code(200);
+    return response;
+  }
+  const response = h.response({
+    status: 'error',
+    message: 'Transaksi tidak ditemukan',
+  }).code(404);
+  return response;
+};
+
 module.exports = {
   addTransaksi,
   getAllTransaksi,
   getTransaksiByIdUser,
+  getIdTransaksi,
   addMitra,
   getAllMitra,
   addSeller,

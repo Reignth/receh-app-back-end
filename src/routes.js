@@ -2,6 +2,7 @@ const {
   addTransaksi,
   getAllTransaksi,
   getTransaksiByIdUser,
+  getIdTransaksi,
   deleteTransaksi,
   addMitra,
   getAllMitra,
@@ -29,6 +30,11 @@ const routes = [
     method: 'DELETE',
     path: '/transaksi/{idTransaksi}',
     handler: deleteTransaksi,
+  },
+  {
+    method: 'GET',
+    path: '/transaksi/{idUser}/{idTransaksi}',
+    handler: getIdTransaksi,
   },
   {
     method: 'POST',
